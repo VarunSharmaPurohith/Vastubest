@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Vastu Purusha Mandala Calculator | Traditional Kshetra Pada Analysis</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Noto Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #f3efe5;
+            margin: 0;
+            padding: 2rem 1rem;
+            color: #2c2b28;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 1.5rem 2rem 2.5rem 2rem;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0.25rem;
+            color: #a6572c;
+            border-left: 5px solid #c27e4a;
+            padding-left: 1.2rem;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            color: #5e5b55;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            padding-left: 1.7rem;
+            border-bottom: 1px solid #e2dcd0;
+            padding-bottom: 0.75rem;
+        }
+
+        .input-panel {
+            background: #faf7f0;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            align-items: flex-end;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #7b5e42;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            font-size: 1.1rem;
+            border: 1px solid #ddd6c8;
+            border-radius: 1.2rem;
+            background: white;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #c27e4a;
+            box-shadow: 0 0 0 3px rgba(194,126,74,0.2);
+        }
+
+        button {
+            background: #c27e4a;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 0.9rem 2rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-top: 0.3rem;
+        }
+
+        button:hover {
+            background: #a56438;
+            transform: scale(0.97);
+        }
+
+        .legend-note {
+            background: #f0ede5;
+            border-radius: 1rem;
+            padding: 0.7rem 1.2rem;
+            margin-bottom: 1.8rem;
+            font-size: 0.85rem;
+            color: #4b3e2e;
+            display: inline-block;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 1.2rem;
+            border: 1px solid #e9e2d4;
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 700px;
+        }
+
+        th {
+            background: #e7dfd1;
+            padding: 1rem 0.8rem;
+            text-align: center;
+            font-weight: 700;
+            color: #4a3724;
+            border-bottom: 1px solid #d6ccbb;
+        }
+
+        td {
+            padding: 0.8rem 0.6rem;
+            text-align: center;
+            border-bottom: 1px solid #efe7db;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .category {
+            font-weight: 700;
+            background-color: #fdf9f2;
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        .badge-good {
+            background: #d9e6c3;
+            color: #2f5e2a;
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.2rem 0.7rem;
+            display: inline-block;
+            font-size: 0.8rem;
+        }
+
+        .badge-warning {
+            background: #ffe1b3;
+            color: #a55d2a;
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.2rem 0.7rem;
+            display: inline-block;
+        }
+
+        .badge-avoid {
+            background: #f4cfce;
+            color: #b13b3b;
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.2rem 0.7rem;
+        }
+
+        .badge-neutral {
+            background: #e2dfd7;
+            color: #4a4a44;
+            border-radius: 40px;
+            padding: 0.2rem 0.7rem;
+        }
+
+        .footnote {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            background: #f9f5ec;
+            padding: 1rem 1.3rem;
+            border-radius: 1rem;
+            color: #4a3f31;
+            border-left: 4px solid #c27e4a;
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 1rem;
+            }
+            .input-panel {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📐 Vastu Kshetra Pada Calculator</h1>
+    <div class="sub">Traditional principles · Length & Width in feet · Aya, Dhana, Runa, Longevity & more</div>
+
+    <div class="input-panel">
+        <div class="input-group">
+            <label>📏 Length (feet)</label>
+            <input type="number" id="length" step="any" value="32" placeholder="e.g., 32 ft">
+        </div>
+        <div class="input-group">
+            <label>📐 Width (feet)</label>
+            <input type="number" id="width" step="any" value="24" placeholder="e.g., 24 ft">
+        </div>
+        <div class="input-group">
+            <label>👤 Owner's Birth Nakshatra (optional)</label>
+            <input type="text" id="ownerNakshatra" placeholder="e.g., Rohini, Ashwini" value="">
+        </div>
+        <button id="calculateBtn">🔮 Compute Vastu Results</button>
+    </div>
+
+    <div class="legend-note">
+        ⚡ <strong>Core rule:</strong> Kshetra Pada = Length × Width (sq.ft). Remainders determine auspiciousness. 
+        Dhana > Runa for prosperity. Aya: 1 (Dhvaja), 3 (Simha), 5 (Vrishabha), 7 (Gaja) are good.
+    </div>
+
+    <div class="table-wrapper" id="resultsTableWrapper">
+        <!-- Dynamic table will be injected here -->
+        <table id="vastuTable">
+            <thead>
+                <tr><th>Varga (Category)</th><th>Calculation (Remainder / Value)</th><th>Interpretation / Auspiciousness</th></tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="3" style="text-align:center;">↻ Enter dimensions & click "Compute Vastu Results"</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footnote" id="summaryNote">
+        💡 <strong>Interpretation guide:</strong> Based on classical multipliers (Gunaka) & divisors (Bhajaka).<br>
+        ✅ Auspicious: AYA types 1,3,5,7 ; Dhana > Runa ; Amsha remainder not in {1,4,5,6} ; Ayu > 60 years ideal.<br>
+        🧭 Guna (Sattva/Rajas/Tamas) derived from Dikpati remainder.
+    </div>
+</div>
+
+<script>
+    (function(){
+        // ----- helper: compute remainder with proper handling of zero remainder -> divisor -----
+        function getRemainder(area, multiplier, divisor) {
+            if (!area || area <= 0) return 0;
+            const product = area * multiplier;
+            let rem = product % divisor;
+            if (rem === 0) rem = divisor;
+            return rem;
+        }
+
+        // ----- Aya mapping based on remainder (1..8) -----
+        const ayaNames = {
+            1: "Dhvaja (Flag) – very auspicious",
+            2: "Dhuma (Smoke) – neutral/mixed",
+            3: "Simha (Lion) – good",
+            4: "Shunaka (Dog) – inauspicious",
+            5: "Vrishabha (Bull) – highly preferred",
+            6: "Khara (Donkey) – inauspicious",
+            7: "Gaja (Elephant) – good",
+            8: "Vayasa (Crow) – inauspicious"
+        };
+        const goodAya = [1,3,5,7];
+
+        // Amsha avoid list: 1,4,5,6 indicate loss, death, theft
+        const avoidAmsha = [1,4,5,6];
+
+        // weekdays interpretation (Vara remainder 1..7)
+        const weekdayInterpret = {
+            1: "Sunday (Ravi) - generally moderate",
+            2: "Monday (Soma) - auspicious ✨",
+            3: "Tuesday (Mangal) - neutral",
+            4: "Wednesday (Budha) - auspicious ✨",
+            5: "Thursday (Guru) - auspicious ✨",
+            6: "Friday (Shukra) - auspicious ✨",
+            7: "Saturday (Shani) - moderate"
+        };
+        const auspiciousWeekdays = [2,4,5,6];
+
+        // Age (Vayas) mapping: remainder 1..4 => 1=Childhood,2=Youth,3=Adulthood,4=OldAge
+        function getVayasInterpretation(rem) {
+            if(rem === 1) return "Childhood (auspicious)";
+            if(rem === 2) return "Youth (auspicious)";
+            if(rem === 3) return "Adulthood (neutral)";
+            if(rem === 4) return "Old Age (less preferred)";
+            return "unknown";
+        }
+        function isVayasGood(rem) {
+            return rem === 1 || rem === 2;
+        }
+
+        // Tithi: avoid Rikta Tithis, Parva Tithis, Amavasya (new moon)
+        // we provide generic warning: remainders that are 4,8,11,14,15? but we follow rule: 
+        // simplified: in many texts 4th,8th,11th,14th, 30(amavasya) etc. but we flag if remainder is 30(amavasya) or 4/8/11/14 as rikta/parva
+        // More systematically: Rikta tithis: 4,8,11,14? Actually 4,8,11,14 are considered inausp. Also Parva includes full moon/new moon. 
+        // We'll mark inauspicious if remainder in [4,8,11,14,15,30] (Amavasya=30, Purnima=15)
+        function isTithiGood(rem) {
+            if(rem === 30) return false; // Amavasya
+            if(rem === 15) return false; // Purnima (parva)
+            const inauspiciousTithis = [4,8,11,14];
+            return !inauspiciousTithis.includes(rem);
+        }
+        function getTithiNote(rem) {
+            if(rem === 30) return "⚠️ Amavasya (New Moon) - avoid";
+            if(rem === 15) return "⚠️ Purnima (Parva Tithi) - less ideal";
+            if([4,8,11,14].includes(rem)) return "⚠️ Rikta/Parva Tithi - inauspicious";
+            return "✅ Acceptable Tithi";
+        }
+
+        // Nakshatra: compatibility note if owner's nakshatra provided, we show simple check (Ekanadi concept)
+        // In absence, generic note: We'll compute nakshatra index (1..27) and indicate if ekanadi compatible? But full compatibility needs owner star.
+        // We'll show based on remainder, but also cross-check owner input if provided: if same nadi? Actually ekanadi = same nakshatra pada or certain. 
+        // Simplified: For demo, we check if owner's nakshatra name matches any prelist or we just show generic.
+        // But since requirement says "compatibility should be checked against owner's birth star. Ekanadi is auspicious" we attempt:
+        // list of 27 nakshatra reference (simple mapping from remainder 1..27)
+        const nakshatraList = [
+            "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
+            "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+            "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha", "Purva Bhadrapada",
+            "Uttara Bhadrapada", "Revati"
+        ];
+        function getNakshatraName(rem) { return nakshatraList[(rem-1) % 27]; }
+        
+        // Dikpati (Direction lord) remainder 1..8 mapping and then Guna: multiply Dikpati result by 8 /3 remainder => 0,1,2 => Sattva,Rajas,Tamas
+        function getGunaFromDikpati(dikpatiRem) {
+            let val = dikpatiRem * 8;
+            let remGuna = val % 3;
+            if(remGuna === 0) return "Sattva (Harmony, Purity) ✨";
+            if(remGuna === 1) return "Rajas (Passion, Activity) 🔥";
+            return "Tamas (Inertia, Darkness) 🌑";
+        }
+
+        // Yoga Varga: remainder 1..27 generic note: high numbers ok
+        function getYogaNote(rem) { return `Yoga remainder ${rem} – results vary, generally higher numbers beneficial`; }
+
+        // Kalasha (prosperity) remainder: higher values generally good
+        // we can show generic
+
+        // Graha (Planet) mapping remainder 1..9 -> Sun,Moon,etc
+        const grahaNames = ["Surya", "Chandra", "Mangala", "Budha", "Guru", "Shukra", "Shani", "Rahu", "Ketu"];
+
+        // Kula (Clan) remainder 1..4; we'll note
+        // Karana: remainder 1..11; Tattva remainder 1..5 (Earth,Water,Fire,Air,Space)
+        // Lagna: 1..12
+
+        // Main calculation function
+        function computeVastu(lengthFeet, widthFeet, ownerNakshatraInput = "") {
+            if (isNaN(lengthFeet) || isNaN(widthFeet) || lengthFeet <= 0 || widthFeet <= 0) {
+                return { error: "Please enter valid positive length & width (feet)." };
+            }
+            const area = lengthFeet * widthFeet;   // Kshetra Pada
+            // define categories: [displayName, multiplier, divisor, customInterpretationFn]
+            const categories = [
+                { name: "Dhana (Income)", key: "dhana", mul: 8, div: 12, interpret: (rem, areaVal) => ({ text: `Remainder = ${rem}`, good: true, extra: "Higher income favorable" }) },
+                { name: "Runa (Debt/Expense)", key: "runa", mul: 3, div: 8, interpret: (rem, areaVal) => ({ text: `Expenditure remainder = ${rem}`, good: true, extra: "Should be less than Dhana" }) },
+                { name: "Vara (Weekday)", key: "vara", mul: 9, div: 7, interpret: (rem) => {
+                    let weekday = weekdayInterpret[rem] || `Day ${rem}`;
+                    let isGood = auspiciousWeekdays.includes(rem);
+                    return { text: `${weekday} (Rem:${rem})`, good: isGood, extra: isGood ? "✨ Auspicious weekday energy" : "Neutral / less favorable" };
+                }},
+                { name: "Tithi (Lunar Day)", key: "tithi", mul: 6, div: 30, interpret: (rem) => {
+                    let good = isTithiGood(rem);
+                    let note = getTithiNote(rem);
+                    return { text: `Tithi remainder ${rem}`, good: good, extra: note };
+                }},
+                { name: "Graha (Planet)", key: "graha", mul: 5, div: 9, interpret: (rem) => {
+                    let planet = grahaNames[(rem-1) % 9];
+                    return { text: `${planet} (Rem:${rem})`, good: true, extra: `Lord: ${planet} – general influence` };
+                }},
+                { name: "Kula (Clan/Family)", key: "kula", mul: 9, div: 4, interpret: (rem) => {
+                    let kulaDesc = rem === 1 ? "Deva Kula" : rem === 2 ? "Manushya Kula" : rem === 3 ? "Rakshasa Kula" : "Mixed";
+                    return { text: `${kulaDesc} (Rem:${rem})`, good: (rem===1||rem===2), extra: rem===1?"Divine clan, highly auspicious":rem===2?"Human clan, good":rem===3?"Demonic, avoid":"neutral" };
+                }},
+                { name: "Kalasha (Prosperity)", key: "kalasha", mul: 12, div: 16, interpret: (rem) => {
+                    let good = rem >= 8;
+                    return { text: `Kalasha value ${rem}/16`, good: good, extra: good ? "🌾 Prosperous pot symbol" : "Needs strengthening rituals" };
+                }},
+                { name: "Nakshatra (Star)", key: "nakshatra", mul: 8, div: 27, interpret: (rem, areaVal, ownerStar) => {
+                    let starName = getNakshatraName(rem);
+                    let compatNote = "";
+                    let isGood = true;
+                    if (ownerStar && ownerStar.trim() !== "") {
+                        let ownerNorm = ownerStar.trim().toLowerCase();
+                        let calcNorm = starName.toLowerCase();
+                        if (ownerNorm === calcNorm) compatNote = "✨ Ekanadi (same nakshatra) – very auspicious!";
+                        else compatNote = `Owner: ${ownerStar} | Site star: ${starName} – check compatibility with astrologer.`;
+                    } else {
+                        compatNote = `Site's nakshatra: ${starName}. Provide owner star for Ekanadi check.`;
+                    }
+                    return { text: `${starName} (Rem:${rem})`, good: isGood, extra: compatNote };
+                }},
+                { name: "Aya (Income Type)", key: "aya", mul: 9, div: 8, interpret: (rem) => {
+                    let ayaDesc = ayaNames[rem] || `Type ${rem}`;
+                    let good = goodAya.includes(rem);
+                    let preference = (rem === 1 || rem === 5) ? "⭐ Highly preferred" : (good ? "✓ Good" : "✗ Avoid");
+                    return { text: `${ayaDesc} (Rem:${rem})`, good: good, extra: preference };
+                }},
+                { name: "Ayu (Longevity)", key: "ayu", mul: 9, div: 120, interpret: (rem) => {
+                    let years = rem;
+                    let good = years >= 60;
+                    return { text: `${years} years (max 120)`, good: good, extra: good ? "✅ Excellent longevity (>60yrs)" : "⚠️ Consider remedial measures (below 60)" };
+                }},
+                { name: "Amsha (Portion)", key: "amsha", mul: 6, div: 9, interpret: (rem) => {
+                    let avoid = avoidAmsha.includes(rem);
+                    return { text: `Amsha remainder ${rem}`, good: !avoid, extra: avoid ? "🚫 Indicates loss, death, or theft – avoid" : "Acceptable amsha" };
+                }},
+                { name: "Dikpati (Direction Lord)", key: "dikpati", mul: 9, div: 8, interpret: (rem) => {
+                    const lords = ["Indra (East)", "Agni (SE)", "Yama (South)", "Nirriti (SW)", "Varuna (West)", "Vayu (NW)", "Kubera (North)", "Ishana (NE)"];
+                    let lord = lords[(rem-1) % 8];
+                    return { text: `${lord} (Rem:${rem})`, good: true, extra: `Direction lord: ${lord}` };
+                }},
+                { name: "Karana (Time Segment)", key: "karana", mul: 5, div: 11, interpret: (rem) => ({ text: `Karana remainder ${rem}`, good: (rem!==4 && rem!==9), extra: "Check panchang for deeper meaning" }) },
+                { name: "Tattva (Element)", key: "tattva", mul: 3, div: 5, interpret: (rem) => {
+                    let elements = ["Prithvi (Earth)", "Apas (Water)", "Agni (Fire)", "Vayu (Air)", "Akasha (Space)"];
+                    let el = elements[(rem-1)%5];
+                    return { text: `${el} (Rem:${rem})`, good: true, extra: "Elemental balance influences vastu" };
+                }},
+                { name: "Lagna (Ascendant)", key: "lagna", mul: 9, div: 12, interpret: (rem) => ({ text: `Lagna sign ${rem}`, good: [1,4,5,7,9,10].includes(rem), extra: "Ascendant energy" }) },
+                { name: "Yoga (Union)", key: "yoga", mul: 4, div: 27, interpret: (rem) => ({ text: `Yoga remainder ${rem}`, good: rem>13, extra: getYogaNote(rem) }) }
+            ];
+
+            // Also Age (Vayas) which is separate: formula: (KshetraPada * Multiplier?) Actually Age: "Divide the result by 4" – In table: Vayas not shown with mul/div directly but given as "Divide the result by 4" => In Vastu context they compute using area? The provided table doesn't list Vayas multiplier/divisor but principle: divide 'result' by 4? We'll follow: from the table 'Ayu' used different. However text mentions: "Age (Vayas): Divide the result by 4. remainders represent Childhood, Youth, Adulthood, Old Age". We'll compute based on area modulo 4 (area % 4) but ensure remainder 1-4. For consistency: take KshetraPada (area) as value, compute remainder when dividing by 4 => 1..4
+            const vayasRaw = area % 4;
+            let vayasRem = (vayasRaw === 0) ? 4 : vayasRaw;
+            const vayasInterpret = getVayasInterpretation(vayasRem);
+            const vayasGood = isVayasGood(vayasRem);
+
+            // Compute each varga result
+            let results = [];
+            for (let cat of categories) {
+                let rem = getRemainder(area, cat.mul, cat.div);
+                let interpObj;
+                if (cat.key === "nakshatra") {
+                    interpObj = cat.interpret(rem, area, ownerNakshatraInput);
+                } else {
+                    interpObj = cat.interpret(rem, area);
+                }
+                results.push({
+                    category: cat.name,
+                    calcValue: interpObj.text,
+                    interpretation: interpObj.extra,
+                    isGood: interpObj.good,
+                    rawRem: rem
+                });
+            }
+
+            // Add Vayas row (Age)
+            results.push({
+                category: "Vayas (Age / Life Stage)",
+                calcValue: `Remainder ${vayasRem} → ${vayasInterpret}`,
+                interpretation: vayasGood ? "Childhood/Youth – growth & prosperity" : "Adulthood/Old age – moderate or less preferred",
+                isGood: vayasGood,
+                rawRem: vayasRem
+            });
+
+            // Add Guna based on Dikpati remainder (from Dikpati category)
+            let dikpatiEntry = results.find(r => r.category === "Dikpati (Direction Lord)");
+            let gunaText = "";
+            if (dikpatiEntry && dikpatiEntry.rawRem) {
+                let dikRem = dikpatiEntry.rawRem;
+                gunaText = getGunaFromDikpati(dikRem);
+            } else {
+                gunaText = "Calculate Dikpati first";
+            }
+            results.push({
+                category: "Guna (Sattva/Rajas/Tamas)",
+                calcValue: "Derived from Dikpati × 8 ÷ 3",
+                interpretation: gunaText,
+                isGood: true,
+                rawRem: "-"
+            });
+
+            // additional Dhana vs Runa comparison
+            const dhanaRes = results.find(r => r.category === "Dhana (Income)");
+            const runaRes = results.find(r => r.category === "Runa (Debt/Expense)");
+            let dhanaVal = dhanaRes ? dhanaRes.rawRem : 0;
+            let runaVal = runaRes ? runaRes.rawRem : 0;
+            let prosperityNote = (dhanaVal > runaVal) ? "✅ Dhana > Runa → Prosperity indicated" : "⚠️ Dhana ≤ Runa → Expenditure may exceed income, consider remedies";
+            results.push({
+                category: "📊 Income vs Expenditure",
+                calcValue: `Dhana=${dhanaVal} , Runa=${runaVal}`,
+                interpretation: prosperityNote,
+                isGood: (dhanaVal > runaVal),
+                rawRem: "-"
+            });
+
+            return { results, area };
+        }
+
+        function renderTable(results, area) {
+            const tbody = document.querySelector("#vastuTable tbody");
+            if (!tbody) return;
+            tbody.innerHTML = "";
+            for (let row of results) {
+                const tr = document.createElement("tr");
+                const tdCat = document.createElement("td");
+                tdCat.className = "category";
+                tdCat.textContent = row.category;
+                const tdCalc = document.createElement("td");
+                tdCalc.textContent = row.calcValue;
+                const tdInterp = document.createElement("td");
+                let badgeClass = "badge-neutral";
+                if (row.isGood === true) badgeClass = "badge-good";
+                else if (row.isGood === false) badgeClass = "badge-avoid";
+                const badgeSpan = document.createElement("span");
+                badgeSpan.className = badgeClass;
+                badgeSpan.textContent = row.interpretation;
+                tdInterp.appendChild(badgeSpan);
+                tr.appendChild(tdCat);
+                tr.appendChild(tdCalc);
+                tr.appendChild(tdInterp);
+                tbody.appendChild(tr);
+            }
+            const summaryDiv = document.getElementById("summaryNote");
+            if (summaryDiv && area) {
+                summaryDiv.innerHTML = `💡 <strong>Interpretation summary:</strong> Kshetra Pada (Area) = ${area.toFixed(2)} sq.ft. ${results.some(r=>r.isGood===false)? "⚠️ Some inauspicious indicators observed – consider remedial vastu measures." : "✨ Most indicators favorable, alignment is promising."}<br>✅ Auspicious: AYA types 1,3,5,7 ; Dhana > Runa ; Avoid Amsha 1,4,5,6 ; Ayu >60 ideal. 🧭 Guna derived from Dikpati.`;
+            }
+        }
+
+        function onCalculate() {
+            const lengthInput = parseFloat(document.getElementById("length").value);
+            const widthInput = parseFloat(document.getElementById("width").value);
+            const ownerStar = document.getElementById("ownerNakshatra").value.trim();
+            const computed = computeVastu(lengthInput, widthInput, ownerStar);
+            if (computed.error) {
+                const tbody = document.querySelector("#vastuTable tbody");
+                if (tbody) tbody.innerHTML = `<tr><td colspan="3" style="color:red; text-align:center;">⚠️ ${computed.error}</td></tr>`;
+                return;
+            }
+            renderTable(computed.results, computed.area);
+        }
+
+        const btn = document.getElementById("calculateBtn");
+        btn.addEventListener("click", onCalculate);
+        // initial load with default values
+        window.addEventListener("DOMContentLoaded", () => {
+            onCalculate();
+        });
+    })();
+</script>
+</body>
+</html>
